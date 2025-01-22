@@ -76,7 +76,9 @@ fun PodcastDetails(
                     else FavouritesManager.deletePodcastFavourite(podcast!!)
 
                     isFavouritted = FavouritesManager.isFavourite(podcast!!)
-                }, colors = ButtonDefaults.buttonColors(containerColor = colorResource(R.color.pink))) {
+                }, shape = RoundedCornerShape(10.dp)
+                    ,
+                    colors = ButtonDefaults.buttonColors(containerColor = colorResource(R.color.pink))) {
                     Text(text = stringResource(if (isFavouritted) R.string.favourited else R.string.favourite))
                 }
 
