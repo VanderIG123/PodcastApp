@@ -36,7 +36,6 @@ import com.podcastapp.podcastapp.navigation.Screen
 fun PodcastsHome(
     modifier: Modifier = Modifier,
     navController: NavController,
-    podcasts: List<Podcast>,
     mainViewModel: MainViewModel
 
 ) {
@@ -50,7 +49,7 @@ fun PodcastsHome(
     Column(
         modifier = modifier
             .fillMaxSize()
-            .padding(top = 15.dp)
+            .padding(20.dp)
     ) {
         Text(
             text = stringResource(R.string.podcasts),
@@ -67,10 +66,9 @@ fun PodcastsHome(
             }
         }
 
-        val isAtBottom = !state.canScrollForward
-
-        LaunchedEffect(isAtBottom){
-            if (isAtBottom) mainViewModel.fetchMorePodcasts()
+        val isBottomOfListReached = !state.canScrollForward
+        LaunchedEffect(isBottomOfListReached) {
+            if (isBottomOfListReached) mainViewModel.fetchMorePodcasts()
         }
     }
 }
@@ -84,19 +82,19 @@ fun PodcastItem(podcast: Podcast, onPodcastClicked: () -> Unit) {
                     .data(podcast.thumbnail)
                     .build(),
                 modifier = Modifier
-                    .size(60.dp)
+                    .size(70.dp)
                     .clip(RoundedCornerShape(8.dp)),
                 contentDescription = null,
             )
 
-            Column() { //stringResource(R.string.unknown)
+            Column(modifier = Modifier.padding(start = 10.dp)) {
                 Text(
                     text = podcast.title ?: "",
                     style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 15.sp)
                 )
                 Text(
                     text = podcast.publisher ?: stringResource(R.string.unknown),
-                    color = Color.Gray
+                    color = Color.Gray,style = TextStyle( fontSize = 15.sp)
                 )
                 if (FavouritesManager.isFavourite(podcast))
                     Text(text = stringResource(R.string.favourited), color = Color.Red)
@@ -104,7 +102,7 @@ fun PodcastItem(podcast: Podcast, onPodcastClicked: () -> Unit) {
 
 
         }
-        Divider(modifier = Modifier.padding(horizontal = 15.dp))
+        Divider(modifier = Modifier.padding(horizontal = 10.dp).padding(top = 15.dp))
     }
 
 }

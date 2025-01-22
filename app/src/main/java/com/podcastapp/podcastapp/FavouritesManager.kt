@@ -4,7 +4,10 @@ import android.content.Context.MODE_PRIVATE
 import com.google.gson.Gson
 import com.podcastapp.podcastapp.mods.Podcast
 
-
+/*
+    This problem could be solved through a room/sql db but for the size and complexity that
+    seemed like a bit of an overkill
+ */
 object FavouritesManager {
     private const val FAVOURITE_PODCASTS_PREFERENCES = "FAVOURITE_PODCASTS_PREFERENCES"
     private const val FAVOURITE_PODCASTS = "FAVOURITE_PODCASTS"
