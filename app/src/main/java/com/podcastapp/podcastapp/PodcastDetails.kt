@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
@@ -41,34 +42,34 @@ fun PodcastDetails(
         ) {
             navController.navigateUp()
         }
-        Column(
+        LazyColumn (
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .padding(top = 60.dp)
                 .padding(horizontal = 15.dp), horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            Text(
-                text = podcast?.title ?: "",
-                style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 25.sp)
-            )
-            Text(text = podcast?.publisher ?: "", color = Color.Gray)
-            AsyncImage(
-                model = podcast?.thumbnail,
-                modifier = Modifier.size(30.dp),
-                contentDescription = null,
-            )
+            item {
+                Text(
+                    text = podcast?.title ?: "",
+                    style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 25.sp)
+                )
+                Text(text = podcast?.publisher ?: "", color = Color.Gray)
+                AsyncImage(
+                    model = podcast?.thumbnail,
+                    modifier = Modifier.size(300.dp),
+                    contentDescription = null,
+                )
 
-            Button(onClick = {}) {
-                Text(text = stringResource(R.string.favourite))
+                Button(onClick = {}) {
+                    Text(text = stringResource(R.string.favourite))
+                }
+
+                Text(
+                    text = podcast?.description ?: "",
+                    color = Color.Gray,
+                    textAlign = TextAlign.Center
+                )
             }
-
-            Text(
-                text = podcast?.description ?: "",
-                color = Color.Gray,
-                textAlign = TextAlign.Center
-            )
-
-
         }
 
     }
@@ -83,11 +84,11 @@ fun BackBtn(modifier: Modifier, onBackBtnClicked: () -> Unit) {
         Icon(
             painter = painterResource(R.drawable.back_icn),
             stringResource(R.string.back_btn),
-            modifier = Modifier.size(20.dp)
+            modifier = Modifier.size(25.dp)
         )
         Text(
             text = stringResource(R.string.back),
-            style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 25.sp)
+            style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 20.sp)
         )
     }
 }

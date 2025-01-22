@@ -15,6 +15,7 @@ import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -23,6 +24,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
+import coil3.request.ImageRequest
 import com.podcastapp.podcastapp.mods.Podcast
 import com.podcastapp.podcastapp.navigation.Screen
 
@@ -65,15 +67,16 @@ fun PodcastsHome(
 @Composable
 fun PodcastItem(podcast: Podcast, onPodcastClicked: () -> Unit) {
     Column(modifier = Modifier.clickable { onPodcastClicked() }) {
-        Row {
-            if (podcast.thumbnail != null)
-                AsyncImage(
-                    model = podcast.thumbnail,
-                    modifier = Modifier.size(15.dp),
-                    contentDescription = null,
-                )
+        Row(modifier = Modifier.padding(top = 25.dp)) {
+            AsyncImage(
+                model = ImageRequest.Builder(LocalContext.current)
+                    .data(podcast.thumbnail)
+                    .build(),
+                modifier = Modifier.size(60.dp),
+                contentDescription = null,
+            )
 
-            Column(modifier = Modifier.padding(top = 25.dp)) { //stringResource(R.string.unknown)
+            Column() { //stringResource(R.string.unknown)
                 Text(
                     text = podcast.title ?: "",
                     style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 15.sp)
@@ -84,6 +87,7 @@ fun PodcastItem(podcast: Podcast, onPodcastClicked: () -> Unit) {
                 )
                 Text(text = stringResource(R.string.favourited), color = Color.Red)
             }
+
 
         }
         Divider(modifier = Modifier.padding(horizontal = 15.dp))
