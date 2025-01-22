@@ -22,18 +22,21 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.podcastapp.podcastapp.mods.Podcast
 
 
 @Composable
-fun PodcastDetails(modifier: Modifier = Modifier, podcast: Podcast) {
+fun PodcastDetails(modifier: Modifier = Modifier, navController: NavController, podcast: Podcast) {
     Box(modifier = modifier.fillMaxSize()) {
         BackBtn(
             modifier = Modifier
                 .align(Alignment.TopStart)
                 .padding(top = 5.dp)
-        ) { }
+        ) {
+            navController.navigateUp()
+        }
         Column(
             modifier = Modifier
                 .align(Alignment.TopCenter)

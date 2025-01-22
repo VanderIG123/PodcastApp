@@ -26,13 +26,21 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import coil3.compose.AsyncImage
 import com.podcastapp.podcastapp.mods.Podcast
+import com.podcastapp.podcastapp.navigation.Screen
 
 
 @Composable
-fun PodcastsHome(modifier: Modifier = Modifier, podcasts: List<Podcast>) {
-    Column(modifier = modifier.fillMaxSize().padding(top =15.dp)) {
+fun PodcastsHome(
+    modifier: Modifier = Modifier,
+    navController: NavController,
+    podcasts: List<Podcast>
+) {
+    Column(modifier = modifier
+        .fillMaxSize()
+        .padding(top = 15.dp)) {
         Text(
             text = stringResource(R.string.podcasts),
             style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 25.sp)
@@ -40,7 +48,7 @@ fun PodcastsHome(modifier: Modifier = Modifier, podcasts: List<Podcast>) {
         LazyColumn {
             items(podcasts) { podcast ->
                 PodcastItem(podcast) {
-
+                    navController.navigate(Screen.PodcastDetail.name)
                 }
             }
         }
