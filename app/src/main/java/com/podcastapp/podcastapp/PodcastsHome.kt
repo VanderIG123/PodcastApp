@@ -89,7 +89,8 @@ fun PodcastItem(podcast: Podcast, onPodcastClicked: () -> Unit) {
                     text = podcast.publisher ?: stringResource(R.string.unknown),
                     color = Color.Gray
                 )
-                Text(text = stringResource(R.string.favourited), color = Color.Red)
+                if (FavouritesManager.isFavourite(podcast))
+                    Text(text = stringResource(R.string.favourited), color = Color.Red)
             }
 
 

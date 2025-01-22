@@ -1,6 +1,5 @@
 package com.podcastapp.podcastapp
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.podcastapp.podcastapp.mods.Podcast
@@ -21,7 +20,6 @@ class MainViewModel : ViewModel() {
     fun fetchAllPodcasts() {
         viewModelScope.launch(Dispatchers.IO) {
             PodcastsRepository.fetchAllPodcasts().collect { podcasts ->
-                Log.e("Test","podcasts: ${podcasts?.podcasts}")
                 _podcasts.emit(podcasts?.podcasts ?: listOf())
             }
         }

@@ -1,8 +1,6 @@
 package com.podcastapp.podcastapp
 
 import android.content.Context.MODE_PRIVATE
-import android.content.SharedPreferences
-import android.provider.Contacts.SettingsColumns.KEY
 import com.google.gson.Gson
 import com.podcastapp.podcastapp.mods.Podcast
 
