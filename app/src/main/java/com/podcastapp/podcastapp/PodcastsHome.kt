@@ -1,8 +1,6 @@
 package com.podcastapp.podcastapp
 
-import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -10,16 +8,13 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material3.Button
 import androidx.compose.material3.Divider
-import androidx.compose.material3.Icon
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
-import androidx.compose.ui.Alignment
+import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -36,18 +31,30 @@ import com.podcastapp.podcastapp.navigation.Screen
 fun PodcastsHome(
     modifier: Modifier = Modifier,
     navController: NavController,
-    podcasts: List<Podcast>
+    podcasts: List<Podcast>,
+    mainViewModel: MainViewModel
+
 ) {
-    Column(modifier = modifier
-        .fillMaxSize()
-        .padding(top = 15.dp)) {
+    val podcasts = mainViewModel.podcasts.collectAsState()
+
+    LaunchedEffect(Unit) {
+        mainViewModel.fetchAllPodcasts()
+    }
+
+
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(top = 15.dp)
+    ) {
         Text(
             text = stringResource(R.string.podcasts),
             style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 25.sp)
         )
         LazyColumn {
-            items(podcasts) { podcast ->
+            items(podcasts.value) { podcast ->
                 PodcastItem(podcast) {
+                    mainViewModel.selectedPodcast = podcast
                     navController.navigate(Screen.PodcastDetail.name)
                 }
             }
@@ -59,18 +66,22 @@ fun PodcastsHome(
 fun PodcastItem(podcast: Podcast, onPodcastClicked: () -> Unit) {
     Column(modifier = Modifier.clickable { onPodcastClicked() }) {
         Row {
-            AsyncImage(
-                model = podcast.iconUrl,
-                modifier = Modifier.size(15.dp),
-                contentDescription = null,
-            )
+            if (podcast.thumbnail != null)
+                AsyncImage(
+                    model = podcast.thumbnail,
+                    modifier = Modifier.size(15.dp),
+                    contentDescription = null,
+                )
 
-            Column(modifier = Modifier.padding(top = 25.dp)) {
+            Column(modifier = Modifier.padding(top = 25.dp)) { //stringResource(R.string.unknown)
                 Text(
-                    text = podcast.name,
+                    text = podcast.title ?: "",
                     style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 15.sp)
                 )
-                Text(text = podcast.hostName, color = Color.Gray)
+                Text(
+                    text = podcast.publisher ?: stringResource(R.string.unknown),
+                    color = Color.Gray
+                )
                 Text(text = stringResource(R.string.favourited), color = Color.Red)
             }
 

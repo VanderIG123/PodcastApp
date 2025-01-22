@@ -1,9 +1,9 @@
 package com.podcastapp.podcastapp.mods
 
 data class Podcast(
-    val id: Int,
-    val name: String,
-    val hostName: String,
-    val iconUrl: String,
-    val details: String
+    val id: String,
+    val title: String,
+    val publisher: String,
+    val thumbnail: String,
+    val description: String
 )

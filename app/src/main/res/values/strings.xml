@@ -5,4 +5,5 @@
     <string name="favourite">Favourite</string>
     <string name="favourited">Favourited</string>
     <string name="podcasts">Podcasts</string>
+    <string name="unknown">Unknown</string>
 </resources>

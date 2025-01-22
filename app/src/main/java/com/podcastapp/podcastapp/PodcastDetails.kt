@@ -24,11 +24,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import coil3.compose.AsyncImage
-import com.podcastapp.podcastapp.mods.Podcast
 
 
 @Composable
-fun PodcastDetails(modifier: Modifier = Modifier, navController: NavController, podcast: Podcast) {
+fun PodcastDetails(
+    modifier: Modifier = Modifier,
+    navController: NavController,
+    mainViewModel: MainViewModel
+) {
+    val podcast = mainViewModel.selectedPodcast
     Box(modifier = modifier.fillMaxSize()) {
         BackBtn(
             modifier = Modifier
@@ -44,12 +48,12 @@ fun PodcastDetails(modifier: Modifier = Modifier, navController: NavController, 
                 .padding(horizontal = 15.dp), horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = podcast.name,
+                text = podcast?.title ?: "",
                 style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 25.sp)
             )
-            Text(text = podcast.hostName, color = Color.Gray)
+            Text(text = podcast?.publisher ?: "", color = Color.Gray)
             AsyncImage(
-                model = podcast.iconUrl,
+                model = podcast?.thumbnail,
                 modifier = Modifier.size(30.dp),
                 contentDescription = null,
             )
@@ -58,7 +62,11 @@ fun PodcastDetails(modifier: Modifier = Modifier, navController: NavController, 
                 Text(text = stringResource(R.string.favourite))
             }
 
-            Text(text = podcast.details, color = Color.Gray, textAlign = TextAlign.Center)
+            Text(
+                text = podcast?.description ?: "",
+                color = Color.Gray,
+                textAlign = TextAlign.Center
+            )
 
 
         }
