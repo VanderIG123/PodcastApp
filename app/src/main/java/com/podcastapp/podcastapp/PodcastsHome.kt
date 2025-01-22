@@ -19,6 +19,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.res.colorResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -97,7 +98,7 @@ fun PodcastItem(podcast: Podcast, onPodcastClicked: () -> Unit) {
                     color = Color.Gray,style = TextStyle( fontSize = 15.sp)
                 )
                 if (FavouritesManager.isFavourite(podcast))
-                    Text(text = stringResource(R.string.favourited), color = Color.Red)
+                    Text(text = stringResource(R.string.favourited), color = colorResource(R.color.pink))
             }
 
 
