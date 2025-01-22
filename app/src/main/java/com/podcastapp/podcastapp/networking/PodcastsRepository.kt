@@ -1,7 +1,6 @@
 package com.podcastapp.podcastapp.networking
 
 import android.util.Log
-import com.podcastapp.podcastapp.mods.Podcast
 import com.podcastapp.podcastapp.mods.PodcastsResponse
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
@@ -20,8 +19,9 @@ object PodcastsRepository {
     }
 
 
-    suspend fun fetchAllPodcasts(): Flow<PodcastsResponse?> {
-        val podcasts = podcastsService?.fetchPodcasts()
+    suspend fun fetchAllPodcasts(page: Int = 1): Flow<PodcastsResponse?> {
+        val podcasts = podcastsService?.fetchPodcasts(page)
+        Log.e("Test","{page: ${podcasts?.page_number}")
         return flow { emit(podcasts) }
     }
 }

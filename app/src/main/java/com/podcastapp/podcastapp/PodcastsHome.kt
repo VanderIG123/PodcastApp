@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Divider
 import androidx.compose.material3.Text
@@ -42,7 +43,7 @@ fun PodcastsHome(
     val podcasts = mainViewModel.podcasts.collectAsState()
 
     LaunchedEffect(Unit) {
-        mainViewModel.fetchAllPodcasts()
+        mainViewModel.fetchMorePodcasts()
     }
 
 
@@ -55,13 +56,21 @@ fun PodcastsHome(
             text = stringResource(R.string.podcasts),
             style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 25.sp)
         )
-        LazyColumn {
+
+        val state = rememberLazyListState()
+        LazyColumn(state = state) {
             items(podcasts.value) { podcast ->
                 PodcastItem(podcast) {
                     mainViewModel.selectedPodcast = podcast
                     navController.navigate(Screen.PodcastDetail.name)
                 }
             }
+        }
+
+        val isAtBottom = !state.canScrollForward
+
+        LaunchedEffect(isAtBottom){
+            if (isAtBottom) mainViewModel.fetchMorePodcasts()
         }
     }
 }

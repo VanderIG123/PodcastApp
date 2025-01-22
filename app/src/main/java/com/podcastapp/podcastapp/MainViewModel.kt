@@ -16,11 +16,16 @@ class MainViewModel : ViewModel() {
 
     var selectedPodcast: Podcast? = null
 
+    private var currentPodcastFetchingPage = 1
 
-    fun fetchAllPodcasts() {
+
+    fun fetchMorePodcasts() {
         viewModelScope.launch(Dispatchers.IO) {
-            PodcastsRepository.fetchAllPodcasts().collect { podcasts ->
-                _podcasts.emit(podcasts?.podcasts ?: listOf())
+            PodcastsRepository.fetchAllPodcasts(currentPodcastFetchingPage).collect { podcasts ->
+                val currentPodcastsList = ArrayList(_podcasts.value)
+                currentPodcastsList.addAll(podcasts?.podcasts ?: listOf())
+                _podcasts.emit(currentPodcastsList)
+                currentPodcastFetchingPage++
             }
         }
     }
